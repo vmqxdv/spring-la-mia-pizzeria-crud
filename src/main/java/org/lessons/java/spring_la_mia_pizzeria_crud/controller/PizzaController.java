@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/pizzas")
@@ -20,20 +21,21 @@ public class PizzaController {
   private PizzaRepository repository;
 
   @GetMapping
-  public String index(Model model) {
-    List<Pizza> pizzas = repository.findAll();
+  public String index(@RequestParam(name = "name", required = false) String name, Model model) {
+    List<Pizza> pizzas;
+    if (name != null && !name.isBlank()) {
+      pizzas = repository.findByNameContainingIgnoreCase(name);
+    } else
+      pizzas = repository.findAll();
 
     model.addAttribute("pizzas", pizzas);
-
     return "pizzas/index";
   }
 
   @GetMapping("/{id}")
   public String show(@PathVariable("id") Integer id, Model model) {
     Optional<Pizza> pizza = repository.findById(id);
-
     model.addAttribute("pizza", pizza.orElse(null));
-
     return "pizzas/show";
   }
 }
