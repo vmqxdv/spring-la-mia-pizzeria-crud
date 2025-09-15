@@ -18,6 +18,7 @@
             <th>Nome</th>
             <th>Ingredienti</th>
             <th>Prezzo</th>
+            <th>Azioni</th>
           </tr>
         </thead>
         <tbody>
@@ -27,6 +28,9 @@
             <td th:text="*{name}"></td>
             <td th:text="*{ingredients}"></td>
             <td th:text="|*{price} €|"></td>
+            <td>
+              <a th:href="@{/pizzas/{id}(id=*{id})}" class="btn btn-sm btn-outline-primary">Dettagli</a>
+            </td>
           </tr>
         </tbody>
       </table>
