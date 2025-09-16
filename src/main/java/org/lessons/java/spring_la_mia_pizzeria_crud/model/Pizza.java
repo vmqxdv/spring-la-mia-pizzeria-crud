@@ -1,7 +1,6 @@
 package org.lessons.java.spring_la_mia_pizzeria_crud.model;
 
 import java.math.BigDecimal;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +10,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "pizzas")
@@ -21,14 +21,16 @@ public class Pizza {
   private Integer id;
 
   @NotBlank
+  @Size(min = 2, max = 50, message = "Il nome deve avere tra 2 e 50 caratteri")
   private String name;
 
   @NotBlank
   @Lob
+  @Size(min = 5, max = 500, message = "Gli ingredienti devono avere tra 5 e 500 caratteri")
   private String ingredients;
 
   @NotNull
-  @DecimalMin(value = "0.0", inclusive = true)
+  @DecimalMin(value = "0.0", inclusive = true, message = "Non può avere un prezzo minore di 0.0")
   private BigDecimal price;
 
   @NotBlank
