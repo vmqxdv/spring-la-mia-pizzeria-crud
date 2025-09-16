@@ -45,8 +45,36 @@
             <td th:text="*{ingredients}"></td>
             <td th:text="|*{price} €|"></td>
             <td>
-              <a th:href="@{/pizzas/{id}(id=*{id})}" class="btn btn-sm btn-outline-primary">Dettagli</a>
-              <a th:href="@{/pizzas/edit/{id}(id=*{id})}" class="btn btn-sm btn-outline-primary">Modifica</a>
+              <div class="d-flex gap-2">
+                <a th:href="@{/pizzas/{id}(id=*{id})}" class="btn btn-sm btn-outline-primary">Dettagli</a>
+                <a th:href="@{/pizzas/edit/{id}(id=*{id})}" class="btn btn-sm btn-outline-primary">Modifica</a>
+
+                <!-- Bottone per far apparire modale -->
+                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                  th:attr="data-bs-target=${'#delete-modal-' + pizza.id}">Elimina</button>
+
+                <!-- Modale -->
+                <div class="modal fade" th:id="${'delete-modal-' + pizza.id}" tabindex="-1"
+                  aria-labelledby="delete-modal" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Cancellazione di [[${pizza.name}]]</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Sei sicuro di voler cancellare la pizza "[[${pizza.name}]]"?</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                        <form th:action="@{/pizzas/delete/{id}(id=${pizza.id})}" method="post">
+                          <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
